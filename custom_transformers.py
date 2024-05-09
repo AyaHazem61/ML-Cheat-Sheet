@@ -33,6 +33,7 @@ class TargetEncoder(BaseEstimator, TransformerMixin):
         self.encoding = dict()
         
     def fit(self, X, y = None):
+        self.feature_names = X.columns
         X_temp = X.copy()
         X_temp[self.target] = y
         for i, col in enumerate(self.cols):
@@ -55,6 +56,9 @@ class TargetEncoder(BaseEstimator, TransformerMixin):
     def fit_transform(self, X, y=None):
         self.fit(X, y)
         return self.transform(X)
+    
+    def get_feature_names_out(self, names = None):
+        return self.feature_names
 
 
 class MultiHotEncoder(BaseEstimator, TransformerMixin):
@@ -88,6 +92,8 @@ class MultiHotEncoder(BaseEstimator, TransformerMixin):
         self.fit(X, y)
         return self.transform(X)
     
+    def get_feature_names_out(self, names = None):
+        return self.classes__
 
 
 class NthRootTransformer(BaseEstimator, TransformerMixin):
@@ -192,6 +198,7 @@ class WinsorizationImpute(BaseEstimator, TransformerMixin):
         self.cols = cols
         
     def fit(self, X, y=None):
+        self.feature_names = X.columns
         self.lower_bounds_ = {}
         self.upper_bounds_ = {}
         for col in self.cols:
@@ -219,4 +226,7 @@ class WinsorizationImpute(BaseEstimator, TransformerMixin):
     def fit_transform(self, X, y=None):
         self.fit(X, y)
         return self.transform(X)
+    
+    def get_feature_names_out(self, names = None):
+        return self.feature_names
  
